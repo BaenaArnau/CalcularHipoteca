@@ -66,5 +66,46 @@ public class MiHipotecaFragment extends Fragment {
                 }
             }
         });
+
+        binding.calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean error = false;
+
+                double capital = 0;
+                int plazo = 0;
+
+                try {
+                    capital = Double.parseDouble(binding.capital.getText().toString());
+                } catch (Exception e){
+                    binding.capital.setError("Introduzca un número");
+                    error = true;
+                }
+
+                try {
+                    plazo = Integer.parseInt(binding.plazo.getText().toString());
+                } catch (Exception e){
+                    binding.plazo.setError("Introduzca un número");
+                    error = true;
+                }
+
+                if (!error) {
+                    miHipotecaViewModel.calcular(capital, plazo);
+                }
+            }
+        });
+
+        miHipotecaViewModel.calculando.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean calculando) {
+                if (calculando) {
+                    binding.calculando.setVisibility(View.VISIBLE);
+                    binding.cuota.setVisibility(View.GONE);
+                } else {
+                    binding.calculando.setVisibility(View.GONE);
+                    binding.cuota.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 }

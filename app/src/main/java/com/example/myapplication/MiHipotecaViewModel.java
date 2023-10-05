@@ -18,6 +18,7 @@ public class MiHipotecaViewModel extends AndroidViewModel {
     MutableLiveData<Double> cuota = new MutableLiveData<>();
     MutableLiveData<Double> errorCapital = new MutableLiveData<>();
     MutableLiveData<Integer> errorPlazos = new MutableLiveData<>();
+    MutableLiveData<Boolean> calculando = new MutableLiveData<>();
 
     public MiHipotecaViewModel(@NonNull Application application) {
         super(application);
@@ -51,8 +52,19 @@ public class MiHipotecaViewModel extends AndroidViewModel {
                     public void cuandoHayaErrorDePlazoInferiorAlMinimo(int plazoMinimo) {
                         errorPlazos.postValue(plazoMinimo);
                     }
+
+                    @Override
+                    public void cuandoEmpieceElCalculo() {
+                        calculando.postValue(true);
+                    }
+
+                    @Override
+                    public void cuandoFinaliceElCalculo() {
+                        calculando.postValue(false);
+                    }
                 });
             }
+
         });
     }
 }

@@ -16,9 +16,12 @@ public class SimuladorHipoteca {
         void cuandoEsteCalculadaLaCuota(double cuota);
         void cuandoHayaErrorDeCapitalInferiorAlMinimo(double capitalMinimo);
         void cuandoHayaErrorDePlazoInferiorAlMinimo(int plazoMinimo);
+        void cuandoEmpieceElCalculo();
+        void cuandoFinaliceElCalculo();
     }
 
     public void calcular(Solicitud solicitud, Callback callback) {
+        callback.cuandoEmpieceElCalculo();
         double interes = 0;
         double capitalMinimo = 0;
         int plazoMinimo = 0;
@@ -44,5 +47,6 @@ public class SimuladorHipoteca {
         if(!error) {
             callback.cuandoEsteCalculadaLaCuota(solicitud.capital * interes / 12 / (1 - Math.pow(1 + (interes / 12), -solicitud.plazo * 12)));
         }
+        callback.cuandoFinaliceElCalculo();
     }
 }
